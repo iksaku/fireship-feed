@@ -1,0 +1,20 @@
+name = "fireship-feed"
+type = "javascript"
+account_id = "df4989e4945becf8236d033213f17af8"
+workers_dev = true
+compatibility_date = "2022-02-26"
+
+kv_namespaces = [
+    { binding = "CACHE", id = "0033ce00ecbe44648f89e577992192d9" }
+]
+
+[build]
+command = "yarn install && yarn build"
+
+[build.upload]
+format = "modules"
+dir = "./src"
+main = "./index.mjs"
+
+# [secrets]
+# YOUTUBE_API_KEY

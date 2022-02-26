@@ -3,9 +3,9 @@
   "name": "fireship-feed",
   "version": "1.0.0",
   "description": "A template for kick starting a Cloudflare Workers project",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "scripts": {
-    "build": "esbuild --bundle --sourcemap --outdir=dist --format=esm ./src/index.ts",
+    "build": "esbuild ./src/index.ts --bundle --sourcemap --outfile=dist/index.mjs --format=esm",
     "dev": "miniflare --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write '**/*.{js,css,json,md}'"

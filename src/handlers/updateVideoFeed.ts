@@ -1,5 +1,3 @@
-import { notify } from '~/notifications'
-
 type YoutubeSearchResults = {
   items: YoutubeSearchResult[]
 }
@@ -15,7 +13,7 @@ type YoutubeSearchResult = {
   }
 }
 
-export async function updateVideoFeed(env: Env) {
+export async function updateVideoFeed(env: Env): Promise<VideoFeed> {
   const youtube_api = new URL(
     'https://youtube.googleapis.com/youtube/v3/search',
   )
@@ -26,7 +24,7 @@ export async function updateVideoFeed(env: Env) {
     order: 'date',
     q: '100SecondsOfCode',
     type: 'video',
-    maxResults: '10',
+    maxResults: '50',
     key: env.YOUTUBE_API_KEY,
   }).toString()
 
@@ -41,7 +39,7 @@ export async function updateVideoFeed(env: Env) {
   if (!response.ok) {
     console.error(json)
 
-    return
+    return []
   }
 
   const transformed: VideoFeed = json.items.map(
@@ -54,11 +52,7 @@ export async function updateVideoFeed(env: Env) {
     },
   )
 
-  await notify(transformed, env)
+  await env.CACHE.put('feed', JSON.stringify(transformed))
 
-  const result = JSON.stringify(transformed)
-
-  await env.CACHE.put('feed', result)
-
-  return result
+  return transformed
 }

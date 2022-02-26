@@ -1,10 +1,10 @@
-import { updateVideoFeed } from '../handlers'
+import { updateVideoFeed } from './updateVideoFeed'
 
 export async function showVideoFeed(env: Env) {
   let cachedFeed = await env.CACHE.get('feed')
 
   if (!cachedFeed) {
-    cachedFeed = await updateVideoFeed(env)
+    cachedFeed = JSON.stringify(await updateVideoFeed(env))
   }
 
   return new Response(cachedFeed, {

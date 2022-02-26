@@ -22,12 +22,17 @@ function buildMessage(newVideos: VideoFeed): object {
   }
 }
 
-export async function notify(feed: VideoFeed, env: Env) {
+export async function notify(feed: VideoFeed, env: Env): Promise<void> {
+  if (feed.length < 1) {
+    return
+  }
+
   const lastCheck = subMinutes(new Date(), 15)
 
-  const newVideos = feed.filter(video =>
-    isAfter(new Date(video.publishedAt), lastCheck),
-  )
+  const wasRecentlyPublished = (video: VideoData) =>
+    isAfter(new Date(video.publishedAt), lastCheck)
+
+  const newVideos = feed.filter(wasRecentlyPublished)
 
   if (newVideos.length < 1) {
     return

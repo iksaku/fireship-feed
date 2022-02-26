@@ -1,6 +1,6 @@
 import { isAfter, sub } from 'date-fns'
 
-const lastCheck = sub(new Date(), { minutes: 6 })
+const lastCheck = sub(new Date(), { minutes: 15 })
 
 function wasPublishedRecently(video: VideoData) {
   return isAfter(new Date(video.publishedAt), lastCheck)

@@ -13,8 +13,8 @@ command = "yarn install && yarn build"
 
 [build.upload]
 format = "modules"
-dir = "./src"
-main = "./index.mjs"
+main = "./index.js"
 
 # [secrets]
 # YOUTUBE_API_KEY
+# DISCORD_WEBHOOK

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "sourceMap": true,
+        "types": [
+            "@cloudflare/workers-types",
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "~/*": ["./src/*"]
+        }
+    },
+}

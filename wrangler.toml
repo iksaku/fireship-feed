@@ -9,7 +9,7 @@ kv_namespaces = [
 ]
 
 [build]
-command = "yarn install && yarn build"
+command = "yarn build"
 
 [build.upload]
 format = "modules"

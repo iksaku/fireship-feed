@@ -38,6 +38,12 @@ export async function updateVideoFeed(env: Env) {
 
   const json = await response.json<YoutubeSearchResults>()
 
+  if (!response.ok) {
+    console.error(json)
+
+    return
+  }
+
   const transformed: VideoFeed = json.items.map(
     (result: YoutubeSearchResult): VideoData => {
       const { title, description, publishedAt } = result.snippet

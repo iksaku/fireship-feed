@@ -1,10 +1,4 @@
-import { isAfter, sub } from 'date-fns'
-
-const lastCheck = sub(new Date(), { minutes: 15 })
-
-function wasPublishedRecently(video: VideoData) {
-  return isAfter(new Date(video.publishedAt), lastCheck)
-}
+import { isAfter, subMinutes } from 'date-fns'
 
 function buildMessage(newVideos: VideoFeed): object {
   let lines
@@ -29,7 +23,11 @@ function buildMessage(newVideos: VideoFeed): object {
 }
 
 export async function notify(feed: VideoFeed, env: Env) {
-  const newVideos = feed.filter(wasPublishedRecently)
+  const lastCheck = subMinutes(new Date(), 15)
+
+  const newVideos = feed.filter(video =>
+    isAfter(new Date(video.publishedAt), lastCheck),
+  )
 
   if (newVideos.length < 1) {
     return

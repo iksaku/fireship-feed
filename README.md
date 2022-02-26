@@ -7,3 +7,16 @@ Whenever a new video or a batch of videos are published, the KV-stored feed is u
 <p align="center">
   <img width="496" alt="image" src="https://user-images.githubusercontent.com/4632429/155833697-79a42f67-bc8c-42e9-8932-14486cd4d208.png">
 </p>
+
+
+## Contribute
+
+1. Install project dependencies:
+
+   `$ yarn install`
+
+2. Setup your `.env` file with the contents of `.env.example`
+
+3. Run the project:
+
+   `$ yarn dev`

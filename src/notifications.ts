@@ -1,4 +1,8 @@
-import { isAfter, subMinutes } from 'date-fns'
+import { isAfter, isEqual, roundToNearestMinutes, subMinutes } from 'date-fns'
+
+function isEqualOrAfter(date: Date, dateToCompare: Date): boolean {
+  return isEqual(date, dateToCompare) || isAfter(date, dateToCompare)
+}
 
 function buildMessage(newVideos: VideoFeed): object {
   let lines
@@ -27,10 +31,16 @@ export async function notify(feed: VideoFeed, env: Env): Promise<void> {
     return
   }
 
-  const lastCheck = subMinutes(new Date(), 15)
+  // We need to round to the nearest quarter-hour to properly compare
+  // video upload times and notify our target channels.
+  const expectedRunTime = roundToNearestMinutes(new Date(), {
+    nearestTo: 15,
+  })
+
+  const lastCheck = subMinutes(expectedRunTime, 15)
 
   const wasRecentlyPublished = (video: VideoData) =>
-    isAfter(new Date(video.publishedAt), lastCheck)
+    isEqualOrAfter(new Date(video.publishedAt), lastCheck)
 
   const newVideos = feed.filter(wasRecentlyPublished)
 

@@ -15,7 +15,7 @@ Whenever a new video or a batch of videos are published, the KV-stored feed is u
 
    `$ yarn install`
 
-2. Setup your `.env` file with the contents of `.env.example`
+2. Setup your `.dev.vars` file with the contents of `.dev.vars.example`
 
 3. Run the project:
 

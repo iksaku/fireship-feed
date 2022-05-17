@@ -52,7 +52,7 @@ export async function updateVideoFeed(env: Env): Promise<VideoFeed> {
     },
   )
 
-  await env.CACHE.put('feed', JSON.stringify(transformed))
+  await env.CACHE.put(env.CACHE_KEY, JSON.stringify(transformed))
 
   return transformed
 }

@@ -1,22 +1,17 @@
 name = "fireship-feed"
-type = "javascript"
 account_id = "df4989e4945becf8236d033213f17af8"
 workers_dev = true
 compatibility_date = "2022-02-26"
+main = "./src/index.ts"
 
 kv_namespaces = [
-    { binding = "CACHE", id = "0033ce00ecbe44648f89e577992192d9" }
+    { binding = "CACHE", id = "0033ce00ecbe44648f89e577992192d9", preview_id = "43b1cbf1476a49dd986dc40fcb3671c9" }
 ]
+
+vars = { CACHE_KEY = "feed" }
 
 [triggers]
 crons = ["*/15 * * * *"]
-
-[build]
-command = "yarn build"
-
-[build.upload]
-format = "modules"
-main = "./index.mjs"
 
 # [secrets]
 # YOUTUBE_API_KEY

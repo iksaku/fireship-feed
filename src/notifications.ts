@@ -1,9 +1,3 @@
-import { isAfter, isEqual, roundToNearestMinutes, subMinutes } from 'date-fns'
-
-function isEqualOrAfter(date: Date, dateToCompare: Date): boolean {
-  return isEqual(date, dateToCompare) || isAfter(date, dateToCompare)
-}
-
 function buildMessage(newVideos: VideoFeed): object {
   let lines
 
@@ -26,38 +20,22 @@ function buildMessage(newVideos: VideoFeed): object {
   }
 }
 
-export async function notify(feed: VideoFeed, env: Env): Promise<void> {
-  if (feed.length < 1) {
-    return
-  }
-
-  // We need to round to the nearest quarter-hour to properly compare
-  // video upload times and notify our target channels.
-  const expectedRunTime = roundToNearestMinutes(new Date(), {
-    nearestTo: 15,
-  })
-
-  const lastCheck = subMinutes(expectedRunTime, 15)
-
-  const wasRecentlyPublished = (video: VideoData) =>
-    isEqualOrAfter(new Date(video.publishedAt), lastCheck)
-
-  const newVideos = feed.filter(wasRecentlyPublished)
-
-  if (newVideos.length < 1) {
-    return
-  }
-
+export async function notify(newVideos: VideoFeed, env: Env): Promise<void> {
   const webhooks = env.DISCORD_WEBHOOK.split(',')
+  const body = JSON.stringify(buildMessage(newVideos))
 
   for (const webhook of webhooks) {
-    await fetch(webhook, {
+    const response = await fetch(webhook, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: JSON.stringify(buildMessage(newVideos)),
+      body,
     })
+
+    if (!response.ok) {
+      console.error(response.status, await response.json())
+    }
   }
 }

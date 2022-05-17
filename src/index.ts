@@ -1,5 +1,4 @@
 import { showVideoFeed, updateVideoFeed } from '~/handlers'
-import { notify } from '~/notifications'
 
 const handler: ExportedHandler<Env> = {
   async fetch(_, env: Env): Promise<Response> {
@@ -7,9 +6,7 @@ const handler: ExportedHandler<Env> = {
   },
 
   async scheduled(_, env: Env) {
-    const updatedFeed: VideoFeed = await updateVideoFeed(env)
-
-    await notify(updatedFeed, env)
+    await updateVideoFeed(env)
   },
 }
 
